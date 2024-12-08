@@ -1,5 +1,5 @@
 
-###Project Overview
+### Project Overview
 This project is a data reconciliation application built with Flask. It allows users to generate two sets of overlapping financial transaction data, compare them, and perform reconciliation to identify exact matches, partial matches, and unmatched entries between the two datasets.
 
 The reconciliation process includes:
