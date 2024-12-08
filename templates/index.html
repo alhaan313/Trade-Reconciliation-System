@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconciliation Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Data Reconciliation Project</h1>
+        <p>Click "Generate New Data" to create random transaction data, then run analysis to see discrepancies.</p>
+    </header>
+
+    <div class="actions">
+        <form method="POST" action="/generate_data">
+            <button type="submit" class="btn btn-primary">Generate New Data</button>
+        </form>
+    </div>
+
+    <!-- Display the generated data as HTML tables -->
+    {% if df1_html %}
+    <div class="data-display">
+        <!-- Box 1: File 1 Data -->
+        <div class="data-frame">
+            <h3>File 1 - Data 1</h3>
+            <div class="table-container">
+                <div class="table-responsive">
+                    {{ df1_html | safe }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Box 2: File 2 Data -->
+        <div class="data-frame">
+            <h3>File 2 - Data 2</h3>
+            <div class="table-container">
+                <div class="table-responsive">
+                    {{ df2_html | safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <form method="POST" action="/start_analysis">
+        <button type="submit" class="btn btn-secondary">Start Analysis</button>
+    </form>
+    {% endif %}
+
+    <footer>
+        <p>&copy; 2024 Data Reconciliation Project. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconciliation Analysis Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Reconciliation Results</h1>
+    </header>
+
+    <div class="content-container">
+        <!-- Box 1: Exact Matches with Summary -->
+        <div class="result-box">
+            <h2>Exact Matches</h2>
+            <div class="result-content">
+                <div class="table-container">
+                    {% if exact_matches.empty %}
+                        <p>No exact matches found.</p>
+                    {% else %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Amount (File 1)</th>
+                                    <th>Date (File 1)</th>
+                                    <th>Amount (File 2)</th>
+                                    <th>Date (File 2)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for match in exact_matches.itertuples() %}
+                                    <tr>
+                                        <td>{{ match.TransactionID }}</td>
+                                        <td>{{ match.Amount_df1 }}</td>
+                                        <td>{{ match.Date_df1 }}</td>
+                                        <td>{{ match.Amount_df2 }}</td>
+                                        <td>{{ match.Date_df2 }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+                <div class="summary">
+                    <h4>Summary:</h4>
+                    <ul>
+                        <li><strong>Total Exact Matches:</strong> {{ exact_matches.shape[0] }}</li>
+                        <li><strong>Amount Match Percentage:</strong> {{ (exact_matches['Amount_df1'] == exact_matches['Amount_df2']).mean() * 100 }}%</li>
+                        <li><strong>Date Match Percentage:</strong> {{ (exact_matches['Date_df1'] == exact_matches['Date_df2']).mean() * 100 }}%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Box 2: Unmatched in File 1 with Summary -->
+        <div class="result-box">
+            <h2>Unmatched in File 1</h2>
+            <div class="result-content">
+                <div class="table-container">
+                    {% if unmatched_df1.empty %}
+                        <p>No unmatched records in File 1.</p>
+                    {% else %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for match in unmatched_df1.itertuples() %}
+                                    <tr>
+                                        <td>{{ match.TransactionID }}</td>
+                                        <td>{{ match.Amount }}</td>
+                                        <td>{{ match.Date }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+                <div class="summary">
+                    <h4>Summary:</h4>
+                    <ul>
+                        <li><strong>Total Unmatched in File 1:</strong> {{ unmatched_df1.shape[0] }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Box 3: Unmatched in File 2 with Summary -->
+        <div class="result-box">
+            <h2>Unmatched in File 2</h2>
+            <div class="result-content">
+                <div class="table-container">
+                    {% if unmatched_df2.empty %}
+                        <p>No unmatched records in File 2.</p>
+                    {% else %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for match in unmatched_df2.itertuples() %}
+                                    <tr>
+                                        <td>{{ match.TransactionID }}</td>
+                                        <td>{{ match.Amount }}</td>
+                                        <td>{{ match.Date }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+                <div class="summary">
+                    <h4>Summary:</h4>
+                    <ul>
+                        <li><strong>Total Unmatched in File 2:</strong> {{ unmatched_df2.shape[0] }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
